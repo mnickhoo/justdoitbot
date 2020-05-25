@@ -1,7 +1,7 @@
 const TelegramBot = require('node-telegram-bot-api'); //use telegram API
 const token = process.env.TELEGRAM_TOKEN //Set Token
 var chanel_id = process.env.CHANEL_ID
-const port = process.env.PORT; //port using for this thread
+const port = process.env.PORT || 3000; //port using for this thread
 
 ///Express
 var express = require('express');
