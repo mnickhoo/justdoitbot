@@ -4,18 +4,18 @@ var MongoClient = require('mongodb').MongoClient;
 //set database URL
 var url = "mongodb://localhost:27017/";
 
-//Connect to database
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("taskManager");  // Connect to database
-  var myobj = { name: "Company Inc", address: "Highway 37" }; //create an object
-  //Select Collection to InsertInto
-  dbo.collection("customers").insertOne(myobj, function(err, res) { 
-    if (err) throw err;
-    console.log("1 document inserted");
-    db.close(); //Close database
-  });
-});
+// //Connect to database
+// MongoClient.connect(url, function(err, db) {
+//   if (err) throw err;
+//   var dbo = db.db("taskManager");  // Connect to database
+//   var myobj = { name: "Company Inc", address: "Highway 37" }; //create an object
+//   //Select Collection to InsertInto
+//   dbo.collection("customers").insertOne(myobj, function(err, res) { 
+//     if (err) throw err;
+//     console.log("1 document inserted");
+//     db.close(); //Close database
+//   });
+// });
 
 var databaseManager = {
   addTaskToDb :function(task , chanel_id){
@@ -38,7 +38,19 @@ var databaseManager = {
       return _id ; 
     });
   });
-  }
+  },
+  get_tasks : async function(){
+    MongoClient.connect(url, function(err , db){
+      if(err) throw err;
+      dbo = db.db("taskManager");
+      var tasks = dbo.collection("tasks").find({}).toArray(function(err,result){
+        if(err) throw err ; 
+        console.log(result);
+        return result;
+      }) 
+      db.close();
+    });
+  }  
 }
 
 
