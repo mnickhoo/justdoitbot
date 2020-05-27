@@ -5,7 +5,11 @@ var fs = require('fs'); // file System
 var taskManager = require('./taskManager.js'); //Local Module
 var databaseManager = require('./DatabaseManager'); //Local Module
 var chanel_id = process.env.CHANEL_ID; //set Channel Id
+<<<<<<< HEAD
 var port = process.env.PORT || 3000; 
+=======
+var port = 8888; 
+>>>>>>> 6b551a2c6605fd83be673a766888a807e8a4c337
 //Create Server on port
 http.createServer(async function (req, res) {
   var q = url.parse(req.url, true);

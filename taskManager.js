@@ -49,4 +49,8 @@ var taskManager = {
     }
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 6b551a2c6605fd83be673a766888a807e8a4c337
 module.exports = taskManager ; //Create Channel Manager Module
