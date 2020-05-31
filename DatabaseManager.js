@@ -1,36 +1,10 @@
 var taskManager = require('./taskManager');
-//USE mongo liberary
-var MongoClient = require('mongodb').MongoClient;
-//set database URL
-var url = "mongodb://localhost:27017/";
-
-<<<<<<< HEAD
-// //Connect to database
-// MongoClient.connect(url, function(err, db) {
+var MongoClient = require('mongodb').MongoClient;//USE mongo liberary
+var url = "mongodb://localhost:27017/"; //set database URL
+// MongoClient.connect(url, function(err, db) { //Connect to database
 //   if (err) throw err;
 //   var dbo = db.db("taskManager");  // Connect to database
-//   var myobj = { name: "Company Inc", address: "Highway 37" }; //create an object
-//   //Select Collection to InsertInto
-//   dbo.collection("customers").insertOne(myobj, function(err, res) { 
-//     if (err) throw err;
-//     console.log("1 document inserted");
-//     db.close(); //Close database
-//   });
 // });
-=======
-//Connect to database
-MongoClient.connect(url, function(err, db) {
-  if (err) throw err;
-  var dbo = db.db("taskManager");  // Connect to database
-  var myobj = { name: "Company Inc", address: "Highway 37" }; //create an object
-  //Select Collection to InsertInto
-  dbo.collection("customers").insertOne(myobj, function(err, res) { 
-    if (err) throw err;
-    console.log("1 document inserted");
-    db.close(); //Close database
-  });
-});
->>>>>>> 6b551a2c6605fd83be673a766888a807e8a4c337
 
 var databaseManager = {
   addTaskToDb :function(task , chanel_id){
@@ -49,11 +23,9 @@ var databaseManager = {
       console.log("id is: "+_id);
       db.close(); //Close database
       taskManager.SendToChannel(chanel_id , task,_id); //send Task to Channel  
-
       return _id ; 
     });
   });
-<<<<<<< HEAD
   },
   get_tasks : async function(){
     MongoClient.connect(url, function(err , db){
@@ -66,11 +38,28 @@ var databaseManager = {
       }) 
       db.close();
     });
+  }, 
+  get_task_by_id(taskId){
+    MongoClient.connect(url , function(err,db){
+      if(err) throw err ; 
+      var dbo = db.db("taskManager");
+      var task = dbo.collection("tasks").find({ _id:{$in:[5,ObjectId(taskId)]}});
+      return task;
+    })
   }  
-=======
-  }
->>>>>>> 6b551a2c6605fd83be673a766888a807e8a4c337
 }
+
+
+// var ObjectId = require('mongodb').ObjectID;
+
+// var get_by_id = function(id, callback) {
+//   console.log("find by: "+ id);
+//   get_collection(function(collection) {
+//     collection.findOne({"_id": new ObjectId(id)}, function(err, doc) {
+//        callback(doc);
+//     });
+//   });
+// }
 
 
 

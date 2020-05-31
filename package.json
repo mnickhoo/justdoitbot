@@ -94,43 +94,7 @@
       "resolved": "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz",
       "version": "3.7.2"
     },
-    "body-parser": {
-      "dependencies": {
-        "debug": {
-          "integrity": "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==",
-          "requires": {
-            "ms": "2.0.0"
-          },
-          "resolved": "https://registry.npmjs.org/debug/-/debug-2.6.9.tgz",
-          "version": "2.6.9"
-        },
-        "ms": {
-          "integrity": "sha1-VgiurfwAvmwpAd9fmGF4jeDVl8g=",
-          "resolved": "https://registry.npmjs.org/ms/-/ms-2.0.0.tgz",
-          "version": "2.0.0"
-        },
-        "qs": {
-          "integrity": "sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==",
-          "resolved": "https://registry.npmjs.org/qs/-/qs-6.7.0.tgz",
-          "version": "6.7.0"
-        }
-      },
-      "integrity": "sha512-dhEPs72UPbDnAQJ9ZKMNTP6ptJaionhP5cBb541nXPlW60Jepo9RV/a4fX4XWW9CuFNK22krhrj1+rgzifNCsw==",
-      "requires": {
-        "bytes": "3.1.0",
-        "content-type": "~1.0.4",
-        "debug": "2.6.9",
-        "depd": "~1.1.2",
-        "http-errors": "1.7.2",
-        "iconv-lite": "0.4.24",
-        "on-finished": "~2.3.0",
-        "qs": "6.7.0",
-        "raw-body": "2.4.0",
-        "type-is": "~1.6.17"
-      },
-      "resolved": "https://registry.npmjs.org/body-parser/-/body-parser-1.19.0.tgz",
-      "version": "1.19.0"
-    },
+    "body-parser": "^1.19.0",
     "bson": {
       "integrity": "sha512-S/yKGU1syOMzO86+dGpg2qGoDL0zvzcb262G+gqEy6TgP6rt6z6qxSFX/8X6vLC91P7G7C3nLs0+bvDzmvBA3Q==",
       "resolved": "https://registry.npmjs.org/bson/-/bson-1.1.4.tgz",
@@ -189,6 +153,7 @@
       "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.2.tgz",
       "version": "1.0.2"
     },
+    "cors": "^2.8.5",
     "dashdash": {
       "integrity": "sha1-hTz6D3y+L+1d4gMmuN1YEDX24vA=",
       "requires": {
@@ -233,11 +198,7 @@
       "resolved": "https://registry.npmjs.org/destroy/-/destroy-1.0.4.tgz",
       "version": "1.0.4"
     },
-    "dotenv": {
-      "integrity": "sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==",
-      "resolved": "https://registry.npmjs.org/dotenv/-/dotenv-8.2.0.tgz",
-      "version": "8.2.0"
-    },
+    "dotenv": "^8.2.0",
     "ecc-jsbn": {
       "integrity": "sha1-OoOpBOVDUyh4dMVkt1SThoSamMk=",
       "requires": {
@@ -614,30 +575,8 @@
       "resolved": "https://registry.npmjs.org/mime-types/-/mime-types-2.1.27.tgz",
       "version": "2.1.27"
     },
-    "mongodb": {
-      "dependencies": {
-        "bl": {
-          "integrity": "sha512-wbgvOpqopSr7uq6fJrLH8EsvYMJf9gzfo2jCsL2eTy75qXPukA4pCgHamOQkZtY5vmfVtjB+P3LNlMHW5CEZXA==",
-          "requires": {
-            "readable-stream": "^2.3.5",
-            "safe-buffer": "^5.1.1"
-          },
-          "resolved": "https://registry.npmjs.org/bl/-/bl-2.2.0.tgz",
-          "version": "2.2.0"
-        }
-      },
-      "integrity": "sha512-lMtleRT+vIgY/JhhTn1nyGwnSMmJkJELp+4ZbrjctrnBxuLbj6rmLuJFz8W2xUzUqWmqoyVxJLYuC58ZKpcTYQ==",
-      "requires": {
-        "bl": "^2.2.0",
-        "bson": "^1.1.4",
-        "denque": "^1.4.1",
-        "require_optional": "^1.0.1",
-        "safe-buffer": "^5.1.2",
-        "saslprep": "^1.0.0"
-      },
-      "resolved": "https://registry.npmjs.org/mongodb/-/mongodb-3.5.7.tgz",
-      "version": "3.5.7"
-    },
+    "mongodb": "^3.5.7",
+    "mongoose": "^5.9.16",
     "ms": {
       "integrity": "sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==",
       "resolved": "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz",
@@ -649,6 +588,7 @@
       "version": "0.6.2"
     },
     "node-telegram-bot-api": "^0.50.0",
+    "nodemon": "^2.0.4",
     "oauth-sign": {
       "integrity": "sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==",
       "resolved": "https://registry.npmjs.org/oauth-sign/-/oauth-sign-0.9.0.tgz",
