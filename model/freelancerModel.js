@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
-const project = require('./project');
+const project = require('./projectModel');
 
-let freelancer = mongoose.model('freelancer' , {
+let freelancerModel = mongoose.model('freelancer' , {
     name : {
         type : String , 
         trim : true
@@ -29,5 +29,5 @@ let freelancer = mongoose.model('freelancer' , {
 
 
 module.exports = {
-    freelancer
+    freelancerModel
 }

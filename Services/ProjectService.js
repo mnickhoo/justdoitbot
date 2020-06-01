@@ -11,7 +11,7 @@ const options = {
 };
 var bot = new TelegramBot(token , options); 
 
-var taskManager = {
+var projectService = {
     task : {
     id : "",
     title: " ",
@@ -24,15 +24,15 @@ var taskManager = {
     point:"",
     image:""
     }, 
-    SendToChannel:function(chanel_id , task , _id){
-        var text = this.CreateTemplate(task);
-        var option = this.createButton(task.linkInfo,_id)
+    SendToChannel:function(chanel_id ,project){
+        var text = this.CreateTemplate(project);
+        var option = this.createButton(project.linkInfo,project._id)
         bot.sendMessage(chanel_id,text ,option); //SendMessage to Chanel
         console.log("send message!");   
     },
-    CreateTemplate: function(task){
-        var txt = task.title + "\n\n" + "توضیحات:"+ task.description + "\n\n" + "زمان تحویل:" + task.expireDate +
-        "\n\n"+"امتیاز:" + task.point;
+    CreateTemplate: function(project){
+        var txt = project.title + "\n\n" + "توضیحات:"+ project.description + "\n\n" + "زمان تحویل:" + project.expireDate +
+        "\n\n"+"امتیاز:" + project.point;
         return txt ; 
     },
     createButton(linkInfo,_id){
@@ -49,4 +49,4 @@ var taskManager = {
     }
 }
 
-module.exports = taskManager ; //Create Channel Manager Module
+module.exports = projectService ; //Create Channel Manager Module

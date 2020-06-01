@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-let project = mongoose.model('project' , { 
+let projectModel = mongoose.model('project' , { 
     title : {
         type : String , 
         trim : true , 
@@ -35,5 +35,5 @@ let project = mongoose.model('project' , {
 
 
 module.exports = {
-    project 
+    projectModel 
 }

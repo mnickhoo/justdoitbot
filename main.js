@@ -1,13 +1,17 @@
+// require('dotenv').config();
 const mongoose = require('./db/mongoose'); //we use mongoose CONFIGURATION
 const TOKEN = process.env.TELEGRAM_TOKEN || '1174993784:AAF88wKCuFIsEi2ctayhbuwzKsED6AO_csI';
-const url_local = 'https://6ac452d277b0.ngrok.io'; //for localhost
+const url_local = 'https://3cbf874372cc.ngrok.io'; //for localhost
 const port = 2020; //we use port on 2020 http://localhost://2020
+const chanel_id = -110829829 ; 
 const express = require('express'); //we use express module
 const bodyParser = require('body-parser');
-const {project} = require('./model/project');
+const {project} = require('./model/projectModel');
+const {freelancerModel} = require('./model/freelancerModel');
+const taskManager = require('./Services/ProjectService');
+const freelancerService = require('./Services/freelancerService');
 var url = require('url'); //Url Module
 var fs = require('fs'); // file System
-
 const TelegramBot = require('node-telegram-bot-api'); //use telegram API
 
 const app = express();
@@ -15,7 +19,7 @@ app.use(bodyParser.json());
 
 const bot = new TelegramBot(TOKEN);
 
-// bot.setWebHook(`${url_local}/bot${TOKEN}`); //set webhook by address
+bot.setWebHook(`${url_local}/bot${TOKEN}`); //set webhook by address
 
 // var dataBaseManager = require('./Junk/DatabaseManager'); //it's depricated 
 // var MongoClient = require('mongodb').MongoClient;//USE mongo liberary
@@ -53,7 +57,10 @@ app.get('/insert', function(req , res){
         }); 
         //save to db 
         newProject.save().then((project)=>{
-            console.log("project has been saved." , project); 
+            //send project to channel
+            taskManager.SendToChannel(chanel_id , project); //send Task to Channel  
+
+            console.log("project has been saved." , project);     
         },(err) =>{
             console.log("project unable to save on db", err);
         });
@@ -63,30 +70,47 @@ app.get('/insert', function(req , res){
     });
 });
 
-// Start Express Server
-app.listen(port, () => {
-  console.log(`Bot server's listening on ${port}`);
-});
-
-// Just to ping!
+// webhook API just to ping!
 bot.on('message', msg => {
   var chatId = msg.chat.id; //get chatId
   var text = msg.text; //get Message or Command
-  if(text.startsWith("/start")){ //if start with /start it's command with task 
+  let isRegistered =  false;
+
     try{
-    var taskId = text.split(" ")[1]; //get the second part of this message beacuase has a task id.
-    //pass taskId to get a task from db
-    let task = project.findById(taskId).then((task)=>{
-        //and assing task to freelancer
-        console.log("task is " , task);
-        bot.sendMessage(`you select ${task.title}`);
-    });
+    let freelancers = freelancerService.findFreelancer(chatId) ; 
+    //if freelancer registered on db continue else register freelancer on db
+    if(isRegistered){
+        if(text.startsWith("/start")){ //if start with /start it's command with task 
+        var taskId = text.split(" ")[1]; //get the second part of this message beacuase has a task id.
+        //pass taskId to get a task from db
+        project.findById(taskId).then((task)=>{
+        //and assign task to freelancer
+        freelancerService.findAndAssingProject(chatId , task).then(()=>{
+            //Project has been assign to freelancer
+            bot.sendMessage("project has been assing to you :)");
+        })
+            //send meesage that assing project to freelancer
+            bot.sendMessage(chatId ,`you select ${task.title}`);
+        });
+        }
+        /* use more /Command here */ 
+    } else{
+        let newFreelancer = new freelancerModel({
+            name : msg.chat.first_name , 
+            family : msg.chat.last_name , 
+            chatId : chatId 
+        })
+        freelancerService.registerFreelancer(newFreelancer)
+        bot.sendMessage(chatId , "you are registered!");
     }
-    catch(err){
+}catch(err){
       bot.sendMessage(msg.chat.id, "you have an erro");
       console.log(err);
     }
-}
-  bot.sendMessage(msg.chat.id, 'I am alive!');
 });
 
+// Start Express Server
+app.listen(port, () => {
+    console.log(`Bot server's listening on ${port}`);
+  });
+  
