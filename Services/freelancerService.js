@@ -37,11 +37,15 @@ var freelancerService = {
        let freelancer = freelancerModel.findOneAndUpdate({
             chatId : chatId
         } , {project : task} , {new : true}).then((freelancer) => {
-            console.log("freelancer is found" , freelancer);
+            //write somthing here
+        } , (err) => {
+            console.log(err)
         })
         return freelancer;
     }
 }
+
+
 
 
 module.exports = freelancerService ; 

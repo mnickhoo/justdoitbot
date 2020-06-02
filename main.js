@@ -72,34 +72,43 @@ app.get('/insert', function(req , res){
 
 // webhook API just to ping!
 bot.on('message', msg => {
-  var chatId = msg.chat.id; //get chatId
-  var text = msg.text; //get Message or Command
-  freelancerModel.count({chatId : chatId} , (err , count)=>{
-    if(err){
-        throw err; //throw error
+    try {
+        var chatId = msg.chat.id; //get chatId
+        var text = msg.text; //get Message or Command
+        freelancerModel.count({chatId : chatId} , (err , count)=>{
+          if(err){
+              throw err; //throw error
+          }
+          if(count>0){//freelancer exist on db 
+          console.log("is registered!"); 
+            if(text.startsWith("/start")){ //if start with /start it's command with task 
+              var taskId = text.split(" ")[1];  //pass taskId to get a task from db
+              projectModel.findOne({_id : taskId}).then((task)=>{ //get project selected
+                let myPromise = new Promise((resolve , reject) =>{
+                    var freelancer = freelancerService.findAndUpdateFreelancer(chatId , task); //find and assign task to freelancer
+                    resolve(freelancer);
+                }).then((freelacer)=> {
+                    sendMessage(chatId , `you select project: ${freelancer.project.title}`);
+                });
+              });
+              // place for new command :)
+            }else{
+                bot.sendMessage(chatId , "command is not defined!");
+            }
+          } else{
+              //user must be register on db
+              let newFreelancer = new freelancerModel({
+                  name : msg.chat.first_name , 
+                  family : msg.chat.last_name , 
+                  chatId : chatId 
+              })
+              freelancerService.registerFreelancer(newFreelancer); //register freelancer
+              bot.sendMessage(chatId , "you are registered!");
+          }
+      });
+    } catch (error) {
+        console.log(error)
     }
-    if(count>0){//freelancer exist on db 
-    console.log("is registered!"); 
-      if(text.startsWith("/start")){ //if start with /start it's command with task 
-        var taskId = text.split(" ")[1];  //pass taskId to get a task from db
-        projectModel.findOne({_id : taskId}).then((task)=>{ //get project selected
-        var freelancer = freelancerService.findAndUpdateFreelancer(chatId , task); //find and assign task to freelancer
-        });
-        // place for new command :)
-      }else{
-          bot.sendMessage(chatId , "command is not defined!");
-      }
-    } else{
-        //user must be register on db
-        let newFreelancer = new freelancerModel({
-            name : msg.chat.first_name , 
-            family : msg.chat.last_name , 
-            chatId : chatId 
-        })
-        freelancerService.registerFreelancer(newFreelancer); //register freelancer
-        bot.sendMessage(chatId , "you are registered!");
-    }
-});
 });
 
 var sendMessage = function(chatId , message){
@@ -110,3 +119,7 @@ app.listen(port, () => {
     console.log(`Bot server's listening on ${port}`);
   });
   
+
+var sendMessage = function(chatId , Message){
+    bot.sendMessage(chatId , message); 
+}
