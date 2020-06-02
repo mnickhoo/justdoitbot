@@ -1,6 +1,8 @@
 require('dotenv').config(); //Add .env 
 const TelegramBot = require('node-telegram-bot-api'); //use telegram API
 var http = require('http'); 
+const mongoose = require('../db/mongoose');
+const projectModel = require('../model/freelancerModel');
 
 const token = process.env.TELEGRAM_TOKEN //Set Token
 var chanel_id = process.env.CHANEL_ID ; 
@@ -46,6 +48,13 @@ var projectService = {
             }         
         };
         return opts;
+    } , 
+    findProject : function(projectId){
+        projectModel.findById({
+            _id : projectModel
+        }).then((project)=>{
+            console.log("project finded!" , project);
+        })
     }
 }
 

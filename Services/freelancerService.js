@@ -2,11 +2,21 @@ const mongoose = require('../db/mongoose');
 const {freelancerModel} = require('../model/freelancerModel');
 
 var freelancerService = {
-    isRegistered : function(chatId){
-        let isIt = false ; 
-        let freelancer = this.findFreelancer(chatId) ; 
-        return freelancer !== null ; 
-    }, 
+     isRegistered :function(chatId){
+        freelancerModel.count({chatId : chatId} , (err , count)=>{
+            if(err){
+                throw err; //throw error
+            }
+            if(count>0){//freelancer exist on db 
+              console.log("is registered!")
+              return true ; 
+            } else{
+                //user must be register on db
+                console.log("is not registered!")
+                return false;
+              }
+        });
+     }, 
     registerFreelancer : function(freelancer){
         let newFreelancer = new freelancerModel({
             name : freelancer.name , 
@@ -23,25 +33,13 @@ var freelancerService = {
             throw err ; 
         });
     } , 
-    findFreelancer : function(chatId){
-       let freelancer = freelancerModel.find({
+    findAndUpdateFreelancer : function(chatId , task){
+       let freelancer = freelancerModel.findOneAndUpdate({
             chatId : chatId
-        }).then((freelancer) => {
+        } , {project : task} , {new : true}).then((freelancer) => {
             console.log("freelancer is found" , freelancer);
         })
         return freelancer;
-    }, 
-    findAndAssingProject : function(chatId , project){
-        freelancerModel.find({
-            chatId : chatId
-        }).then((freelancer) => {
-            freelancer.project = project ; 
-            freelancer.save().then(() =>{
-                console.log("saved!!!");
-            })
-            console.log(freelancer); 
-
-        })
     }
 }
 
